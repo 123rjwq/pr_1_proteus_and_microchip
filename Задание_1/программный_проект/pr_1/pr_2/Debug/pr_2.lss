@@ -1,0 +1,428 @@
+
+pr_2.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00000196  00000000  00000000  00000054  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000000  00800060  00800060  000001ea  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .comment      00000030  00000000  00000000  000001ea  2**0
+                  CONTENTS, READONLY
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  0000021c  2**2
+                  CONTENTS, READONLY
+  4 .debug_aranges 00000038  00000000  00000000  00000258  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_info   0000081c  00000000  00000000  00000290  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 00000582  00000000  00000000  00000aac  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_line   00000451  00000000  00000000  0000102e  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_frame  00000054  00000000  00000000  00001480  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_str    00000396  00000000  00000000  000014d4  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_loc    00000180  00000000  00000000  0000186a  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_ranges 00000028  00000000  00000000  000019ea  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	12 c0       	rjmp	.+36     	; 0x26 <__ctors_end>
+   2:	19 c0       	rjmp	.+50     	; 0x36 <__bad_interrupt>
+   4:	18 c0       	rjmp	.+48     	; 0x36 <__bad_interrupt>
+   6:	17 c0       	rjmp	.+46     	; 0x36 <__bad_interrupt>
+   8:	16 c0       	rjmp	.+44     	; 0x36 <__bad_interrupt>
+   a:	15 c0       	rjmp	.+42     	; 0x36 <__bad_interrupt>
+   c:	14 c0       	rjmp	.+40     	; 0x36 <__bad_interrupt>
+   e:	13 c0       	rjmp	.+38     	; 0x36 <__bad_interrupt>
+  10:	12 c0       	rjmp	.+36     	; 0x36 <__bad_interrupt>
+  12:	11 c0       	rjmp	.+34     	; 0x36 <__bad_interrupt>
+  14:	10 c0       	rjmp	.+32     	; 0x36 <__bad_interrupt>
+  16:	0f c0       	rjmp	.+30     	; 0x36 <__bad_interrupt>
+  18:	0e c0       	rjmp	.+28     	; 0x36 <__bad_interrupt>
+  1a:	0d c0       	rjmp	.+26     	; 0x36 <__bad_interrupt>
+  1c:	0c c0       	rjmp	.+24     	; 0x36 <__bad_interrupt>
+  1e:	0b c0       	rjmp	.+22     	; 0x36 <__bad_interrupt>
+  20:	0a c0       	rjmp	.+20     	; 0x36 <__bad_interrupt>
+  22:	09 c0       	rjmp	.+18     	; 0x36 <__bad_interrupt>
+  24:	08 c0       	rjmp	.+16     	; 0x36 <__bad_interrupt>
+
+00000026 <__ctors_end>:
+  26:	11 24       	eor	r1, r1
+  28:	1f be       	out	0x3f, r1	; 63
+  2a:	cf e5       	ldi	r28, 0x5F	; 95
+  2c:	d4 e0       	ldi	r29, 0x04	; 4
+  2e:	de bf       	out	0x3e, r29	; 62
+  30:	cd bf       	out	0x3d, r28	; 61
+  32:	3b d0       	rcall	.+118    	; 0xaa <main>
+  34:	ae c0       	rjmp	.+348    	; 0x192 <_exit>
+
+00000036 <__bad_interrupt>:
+  36:	e4 cf       	rjmp	.-56     	; 0x0 <__vectors>
+
+00000038 <_Z6port_ci>:
+#include <util/delay.h>
+
+// ‘ункци€ дл€ управлени€ PORTC с задержкой
+int port_c(int i)
+{
+	PORTC = (1<<i);
+  38:	21 e0       	ldi	r18, 0x01	; 1
+  3a:	30 e0       	ldi	r19, 0x00	; 0
+  3c:	08 2e       	mov	r0, r24
+  3e:	02 c0       	rjmp	.+4      	; 0x44 <__SREG__+0x5>
+  40:	22 0f       	add	r18, r18
+  42:	33 1f       	adc	r19, r19
+  44:	0a 94       	dec	r0
+  46:	e2 f7       	brpl	.-8      	; 0x40 <__SREG__+0x1>
+  48:	25 bb       	out	0x15, r18	; 21
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+  4a:	2f ef       	ldi	r18, 0xFF	; 255
+  4c:	31 ee       	ldi	r19, 0xE1	; 225
+  4e:	44 e0       	ldi	r20, 0x04	; 4
+  50:	21 50       	subi	r18, 0x01	; 1
+  52:	30 40       	sbci	r19, 0x00	; 0
+  54:	40 40       	sbci	r20, 0x00	; 0
+  56:	e1 f7       	brne	.-8      	; 0x50 <__SREG__+0x11>
+  58:	00 c0       	rjmp	.+0      	; 0x5a <__SREG__+0x1b>
+  5a:	00 00       	nop
+	_delay_ms(200);
+	return (i);
+}
+  5c:	08 95       	ret
+
+0000005e <_Z6port_di>:
+// ‘ункци€ дл€ управлени€ PORTD с задержкой
+int port_d(int i)
+{
+	PORTD = (1<<i);
+  5e:	21 e0       	ldi	r18, 0x01	; 1
+  60:	30 e0       	ldi	r19, 0x00	; 0
+  62:	08 2e       	mov	r0, r24
+  64:	02 c0       	rjmp	.+4      	; 0x6a <_Z6port_di+0xc>
+  66:	22 0f       	add	r18, r18
+  68:	33 1f       	adc	r19, r19
+  6a:	0a 94       	dec	r0
+  6c:	e2 f7       	brpl	.-8      	; 0x66 <_Z6port_di+0x8>
+  6e:	22 bb       	out	0x12, r18	; 18
+  70:	2f ef       	ldi	r18, 0xFF	; 255
+  72:	31 ee       	ldi	r19, 0xE1	; 225
+  74:	44 e0       	ldi	r20, 0x04	; 4
+  76:	21 50       	subi	r18, 0x01	; 1
+  78:	30 40       	sbci	r19, 0x00	; 0
+  7a:	40 40       	sbci	r20, 0x00	; 0
+  7c:	e1 f7       	brne	.-8      	; 0x76 <_Z6port_di+0x18>
+  7e:	00 c0       	rjmp	.+0      	; 0x80 <_Z6port_di+0x22>
+  80:	00 00       	nop
+	_delay_ms(200);
+	return (i);
+}
+  82:	08 95       	ret
+
+00000084 <_Z6port_bi>:
+// ‘ункци€ дл€ управлени€ PORTB с задержкой
+int port_b(int i)
+{
+	PORTB = (1<<i);
+  84:	21 e0       	ldi	r18, 0x01	; 1
+  86:	30 e0       	ldi	r19, 0x00	; 0
+  88:	08 2e       	mov	r0, r24
+  8a:	02 c0       	rjmp	.+4      	; 0x90 <_Z6port_bi+0xc>
+  8c:	22 0f       	add	r18, r18
+  8e:	33 1f       	adc	r19, r19
+  90:	0a 94       	dec	r0
+  92:	e2 f7       	brpl	.-8      	; 0x8c <_Z6port_bi+0x8>
+  94:	28 bb       	out	0x18, r18	; 24
+  96:	2f ef       	ldi	r18, 0xFF	; 255
+  98:	31 ee       	ldi	r19, 0xE1	; 225
+  9a:	44 e0       	ldi	r20, 0x04	; 4
+  9c:	21 50       	subi	r18, 0x01	; 1
+  9e:	30 40       	sbci	r19, 0x00	; 0
+  a0:	40 40       	sbci	r20, 0x00	; 0
+  a2:	e1 f7       	brne	.-8      	; 0x9c <_Z6port_bi+0x18>
+  a4:	00 c0       	rjmp	.+0      	; 0xa6 <_Z6port_bi+0x22>
+  a6:	00 00       	nop
+	_delay_ms(200);
+	return (i);
+}
+  a8:	08 95       	ret
+
+000000aa <main>:
+
+int main(void)
+{
+	//DDRB = 0b00000010;
+	DDRD= 0b11111111;
+  aa:	8f ef       	ldi	r24, 0xFF	; 255
+  ac:	81 bb       	out	0x11, r24	; 17
+	DDRC= 0b11111111;
+  ae:	84 bb       	out	0x14, r24	; 20
+	DDRB= 0b11111010;
+  b0:	8a ef       	ldi	r24, 0xFA	; 250
+  b2:	87 bb       	out	0x17, r24	; 23
+	PORTB|= (1<<PB0)|(1<<PB2);	
+  b4:	88 b3       	in	r24, 0x18	; 24
+  b6:	85 60       	ori	r24, 0x05	; 5
+  b8:	88 bb       	out	0x18, r24	; 24
+	
+    /* Replace with your application code */
+    while (1) 
+    {
+		if(!(PINB&(1<<PB2))) // кнопка нижн€€ нажата - вариант 
+  ba:	b2 99       	sbic	0x16, 2	; 22
+  bc:	4b c0       	rjmp	.+150    	; 0x154 <main+0xaa>
+		{
+			if(!(PINB&(1<<PB0))) // кнопка нажата верх€€ - по варианту вверх
+  be:	b0 99       	sbic	0x16, 0	; 22
+  c0:	22 c0       	rjmp	.+68     	; 0x106 <main+0x5c>
+  c2:	c8 e0       	ldi	r28, 0x08	; 8
+  c4:	d0 e0       	ldi	r29, 0x00	; 0
+			{
+				for (int i = 8; i  >= 0; i--)
+  c6:	dd 23       	and	r29, r29
+  c8:	3c f0       	brlt	.+14     	; 0xd8 <main+0x2e>
+				{
+					DDRD=0b11111111;
+  ca:	8f ef       	ldi	r24, 0xFF	; 255
+  cc:	81 bb       	out	0x11, r24	; 17
+					port_d(i);
+  ce:	ce 01       	movw	r24, r28
+  d0:	c6 df       	rcall	.-116    	; 0x5e <_Z6port_di>
+					DDRD=0b00000000;
+  d2:	11 ba       	out	0x11, r1	; 17
+    {
+		if(!(PINB&(1<<PB2))) // кнопка нижн€€ нажата - вариант 
+		{
+			if(!(PINB&(1<<PB0))) // кнопка нажата верх€€ - по варианту вверх
+			{
+				for (int i = 8; i  >= 0; i--)
+  d4:	21 97       	sbiw	r28, 0x01	; 1
+  d6:	f7 cf       	rjmp	.-18     	; 0xc6 <main+0x1c>
+  d8:	c6 e0       	ldi	r28, 0x06	; 6
+  da:	d0 e0       	ldi	r29, 0x00	; 0
+				{
+					DDRD=0b11111111;
+					port_d(i);
+					DDRD=0b00000000;
+				}
+				for (int i = 6; i  >= 0; i--)
+  dc:	dd 23       	and	r29, r29
+  de:	3c f0       	brlt	.+14     	; 0xee <main+0x44>
+				{
+					DDRC=0b11111111;
+  e0:	8f ef       	ldi	r24, 0xFF	; 255
+  e2:	84 bb       	out	0x14, r24	; 20
+					port_c(i);
+  e4:	ce 01       	movw	r24, r28
+  e6:	a8 df       	rcall	.-176    	; 0x38 <_Z6port_ci>
+					DDRC=0b00000000;
+  e8:	14 ba       	out	0x14, r1	; 20
+				{
+					DDRD=0b11111111;
+					port_d(i);
+					DDRD=0b00000000;
+				}
+				for (int i = 6; i  >= 0; i--)
+  ea:	21 97       	sbiw	r28, 0x01	; 1
+  ec:	f7 cf       	rjmp	.-18     	; 0xdc <main+0x32>
+  ee:	c1 e0       	ldi	r28, 0x01	; 1
+  f0:	d0 e0       	ldi	r29, 0x00	; 0
+					DDRC=0b11111111;
+					port_c(i);
+					DDRC=0b00000000;
+				}
+				
+				for (int i = 1; i  >= 1; i--)
+  f2:	1c 16       	cp	r1, r28
+  f4:	1d 06       	cpc	r1, r29
+  f6:	0c f7       	brge	.-62     	; 0xba <main+0x10>
+				{
+					DDRB=0b11111111;
+  f8:	8f ef       	ldi	r24, 0xFF	; 255
+  fa:	87 bb       	out	0x17, r24	; 23
+					port_b(i);
+  fc:	ce 01       	movw	r24, r28
+  fe:	c2 df       	rcall	.-124    	; 0x84 <_Z6port_bi>
+					DDRB=0b00000000;
+ 100:	17 ba       	out	0x17, r1	; 23
+					DDRC=0b11111111;
+					port_c(i);
+					DDRC=0b00000000;
+				}
+				
+				for (int i = 1; i  >= 1; i--)
+ 102:	21 97       	sbiw	r28, 0x01	; 1
+ 104:	f6 cf       	rjmp	.-20     	; 0xf2 <main+0x48>
+					DDRB=0b11111111;
+					port_b(i);
+					DDRB=0b00000000;
+				}
+			}
+			else if((PINB&(1<<PB0)))// кнопка не нажата верх€€ - по варианту вниз
+ 106:	b0 9b       	sbis	0x16, 0	; 22
+ 108:	d8 cf       	rjmp	.-80     	; 0xba <main+0x10>
+ 10a:	c0 e0       	ldi	r28, 0x00	; 0
+ 10c:	d0 e0       	ldi	r29, 0x00	; 0
+			{
+				for (int i = 0; i < 6; i++)
+ 10e:	c6 30       	cpi	r28, 0x06	; 6
+ 110:	d1 05       	cpc	r29, r1
+ 112:	3c f4       	brge	.+14     	; 0x122 <main+0x78>
+				{
+					DDRC=0b11111111;
+ 114:	8f ef       	ldi	r24, 0xFF	; 255
+ 116:	84 bb       	out	0x14, r24	; 20
+					port_c(i);
+ 118:	ce 01       	movw	r24, r28
+ 11a:	8e df       	rcall	.-228    	; 0x38 <_Z6port_ci>
+					DDRC=0b00000000;
+ 11c:	14 ba       	out	0x14, r1	; 20
+					DDRB=0b00000000;
+				}
+			}
+			else if((PINB&(1<<PB0)))// кнопка не нажата верх€€ - по варианту вниз
+			{
+				for (int i = 0; i < 6; i++)
+ 11e:	21 96       	adiw	r28, 0x01	; 1
+ 120:	f6 cf       	rjmp	.-20     	; 0x10e <main+0x64>
+ 122:	c0 e0       	ldi	r28, 0x00	; 0
+ 124:	d0 e0       	ldi	r29, 0x00	; 0
+				{
+					DDRC=0b11111111;
+					port_c(i);
+					DDRC=0b00000000;
+				}
+				for (int i = 0; i < 9; i++)
+ 126:	c9 30       	cpi	r28, 0x09	; 9
+ 128:	d1 05       	cpc	r29, r1
+ 12a:	3c f4       	brge	.+14     	; 0x13a <main+0x90>
+				{
+					DDRD=0b11111111;
+ 12c:	8f ef       	ldi	r24, 0xFF	; 255
+ 12e:	81 bb       	out	0x11, r24	; 17
+					port_d(i);
+ 130:	ce 01       	movw	r24, r28
+ 132:	95 df       	rcall	.-214    	; 0x5e <_Z6port_di>
+					DDRD=0b00000000;
+ 134:	11 ba       	out	0x11, r1	; 17
+				{
+					DDRC=0b11111111;
+					port_c(i);
+					DDRC=0b00000000;
+				}
+				for (int i = 0; i < 9; i++)
+ 136:	21 96       	adiw	r28, 0x01	; 1
+ 138:	f6 cf       	rjmp	.-20     	; 0x126 <main+0x7c>
+ 13a:	c1 e0       	ldi	r28, 0x01	; 1
+ 13c:	d0 e0       	ldi	r29, 0x00	; 0
+				{
+					DDRD=0b11111111;
+					port_d(i);
+					DDRD=0b00000000;
+				}
+				for (int i = 1; i  >= 1; i--)
+ 13e:	1c 16       	cp	r1, r28
+ 140:	1d 06       	cpc	r1, r29
+ 142:	0c f0       	brlt	.+2      	; 0x146 <main+0x9c>
+ 144:	ba cf       	rjmp	.-140    	; 0xba <main+0x10>
+				{
+					DDRB=0b11111111;
+ 146:	8f ef       	ldi	r24, 0xFF	; 255
+ 148:	87 bb       	out	0x17, r24	; 23
+					port_b(i);
+ 14a:	ce 01       	movw	r24, r28
+ 14c:	9b df       	rcall	.-202    	; 0x84 <_Z6port_bi>
+					DDRB=0b00000000;
+ 14e:	17 ba       	out	0x17, r1	; 23
+				{
+					DDRD=0b11111111;
+					port_d(i);
+					DDRD=0b00000000;
+				}
+				for (int i = 1; i  >= 1; i--)
+ 150:	21 97       	sbiw	r28, 0x01	; 1
+ 152:	f5 cf       	rjmp	.-22     	; 0x13e <main+0x94>
+					port_b(i);
+					DDRB=0b00000000;
+				}
+			}
+		}
+		else if((PINB&(1<<PB2)))// кнопка нижн€€ не нажата - предвариант
+ 154:	b2 9b       	sbis	0x16, 2	; 22
+ 156:	b1 cf       	rjmp	.-158    	; 0xba <main+0x10>
+		{
+			if(!(PINB&(1<<PB0))) // кнопка нажата верх€€ - по предварианту вверх
+ 158:	b0 99       	sbic	0x16, 0	; 22
+ 15a:	0c c0       	rjmp	.+24     	; 0x174 <main+0xca>
+ 15c:	c8 e0       	ldi	r28, 0x08	; 8
+ 15e:	d0 e0       	ldi	r29, 0x00	; 0
+			{
+				for (int i = 8; i  >= 0; i--)
+ 160:	dd 23       	and	r29, r29
+ 162:	0c f4       	brge	.+2      	; 0x166 <main+0xbc>
+ 164:	aa cf       	rjmp	.-172    	; 0xba <main+0x10>
+				{
+					DDRD=0b11111111;
+ 166:	8f ef       	ldi	r24, 0xFF	; 255
+ 168:	81 bb       	out	0x11, r24	; 17
+					port_d(i);
+ 16a:	ce 01       	movw	r24, r28
+ 16c:	78 df       	rcall	.-272    	; 0x5e <_Z6port_di>
+					DDRD=0b00000000;
+ 16e:	11 ba       	out	0x11, r1	; 17
+		}
+		else if((PINB&(1<<PB2)))// кнопка нижн€€ не нажата - предвариант
+		{
+			if(!(PINB&(1<<PB0))) // кнопка нажата верх€€ - по предварианту вверх
+			{
+				for (int i = 8; i  >= 0; i--)
+ 170:	21 97       	sbiw	r28, 0x01	; 1
+ 172:	f6 cf       	rjmp	.-20     	; 0x160 <main+0xb6>
+					DDRD=0b11111111;
+					port_d(i);
+					DDRD=0b00000000;
+				}
+			}
+			else if((PINB&(1<<PB0))) // кнопка не нажата верх€€ - по предварианту вниз
+ 174:	b0 9b       	sbis	0x16, 0	; 22
+ 176:	a1 cf       	rjmp	.-190    	; 0xba <main+0x10>
+ 178:	c0 e0       	ldi	r28, 0x00	; 0
+ 17a:	d0 e0       	ldi	r29, 0x00	; 0
+			{
+				for (int i = 0; i < 9; i++)
+ 17c:	c9 30       	cpi	r28, 0x09	; 9
+ 17e:	d1 05       	cpc	r29, r1
+ 180:	0c f0       	brlt	.+2      	; 0x184 <main+0xda>
+ 182:	9b cf       	rjmp	.-202    	; 0xba <main+0x10>
+				{
+					DDRD=0b11111111;
+ 184:	8f ef       	ldi	r24, 0xFF	; 255
+ 186:	81 bb       	out	0x11, r24	; 17
+					port_d(i);
+ 188:	ce 01       	movw	r24, r28
+ 18a:	69 df       	rcall	.-302    	; 0x5e <_Z6port_di>
+					DDRD=0b00000000;
+ 18c:	11 ba       	out	0x11, r1	; 17
+					DDRD=0b00000000;
+				}
+			}
+			else if((PINB&(1<<PB0))) // кнопка не нажата верх€€ - по предварианту вниз
+			{
+				for (int i = 0; i < 9; i++)
+ 18e:	21 96       	adiw	r28, 0x01	; 1
+ 190:	f5 cf       	rjmp	.-22     	; 0x17c <main+0xd2>
+
+00000192 <_exit>:
+ 192:	f8 94       	cli
+
+00000194 <__stop_program>:
+ 194:	ff cf       	rjmp	.-2      	; 0x194 <__stop_program>
